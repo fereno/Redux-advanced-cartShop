@@ -5,10 +5,7 @@ import {useDispatch} from "react-redux";
 
 const ProductItem = ({id, title, price, description}) => {
   const dispatch = useDispatch();
-  console.log("price", price);
   const addHandler = () => {
-    // item={{title: "Test Item", quantity: 3, total: 18, price: 6}}
-
     dispatch(cartActions.add({id, title, price}));
   };
   return (

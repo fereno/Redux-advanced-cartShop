@@ -11,7 +11,7 @@ const Products = (props) => {
     <section className={classes.products}>
       <h2>Buy your favorite products</h2>
       {DUMMY_PRODUCT.map((p) => (
-        <ul>
+        <ul key={p.id}>
           <ProductItem
             key={p.id}
             id={p.id}
