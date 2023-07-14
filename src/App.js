@@ -5,49 +5,22 @@ import Products from "./components/Shop/Products";
 import {useSelector, useDispatch} from "react-redux";
 import {uiAction} from "./store/ui-slice";
 import Notification from "./components/UI/Notification";
+import {sendCartData} from "./store/cart";
+
+let isInitial = true;
 
 function App() {
   const cartVisibility = useSelector((state) => state.ui.uiVisibility);
   const cart = useSelector((state) => state.cart);
   const notification = useSelector((state) => state.ui.notification);
   const dispatch = useDispatch();
+
   useEffect(() => {
-    const addCartToServer = async () => {
-      console.log("noti", notification);
-      dispatch(
-        uiAction.showNotification({
-          status: "pending",
-          title: "Sending",
-          message: "sending cart data ...",
-        })
-      );
-
-      const response = await fetch("address firebase ", {
-        method: "PUT",
-        body: JSON.stringify(cart),
-      });
-
-      if (!response.ok) {
-        throw new Error("sending cart data failed!");
-      }
-      dispatch(
-        uiAction.showNotification({
-          status: "success",
-          title: "Success",
-          message: "sending cart data successfully.",
-        })
-      );
-
-      addCartToServer().catch((error) => {
-        dispatch(
-          uiAction.showNotification({
-            status: "error",
-            title: "Error",
-            message: "sending cart data failed.",
-          })
-        );
-      });
-    };
+    if (isInitial) {
+      isInitial = false;
+      return;
+    }
+    dispatch(sendCartData(cart));
   }, [cart, dispatch]);
   return (
     <Fragment>
